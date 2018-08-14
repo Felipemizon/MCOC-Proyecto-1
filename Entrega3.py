@@ -14,6 +14,7 @@ from scipy.sparse import spdiags
 ton = 1              # Toneladas
 s = 1                # Segundos
 m = 1                # Metros
+Hz = 1               # Hertz
 kg = ton*1e-3        # Kilogramos
 
 N = kg*m/(s**2)      # Newton
@@ -98,3 +99,15 @@ K = -k*K
 for i in range(n-1):
     K[i,i] = k[i]+k[i+1]    
 K[-1,-1] = k[-1]
+
+f1 = 0.2 * Hz
+f2 = 2 * Hz
+xi1 = 0.0025
+xi2 = xi1
+
+a0 = ((4*sp.pi*f1*f2)/(f1**2-f2**2))*(f1*xi2-f2*xi1)
+a1 = (f1*xi1-f2*xi2)/(sp.pi*(f1**2-f2**2))
+
+C = a0*M + a1*K
+
+sp.save('mck.npz', M, C, K)
