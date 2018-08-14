@@ -110,4 +110,4 @@ a1 = (f1*xi1-f2*xi2)/(sp.pi*(f1**2-f2**2))
 
 C = a0*M + a1*K
 
-sp.savez('mck.npz', M, C, K)
+sp.savez('mck.npz', M=M, C=C, K=K)
