@@ -9,48 +9,49 @@ Created on Mon Aug 13 19:56:46 2018
 import scipy as sp
 from scipy.sparse import spdiags
 
-masa_lineal = 6.2 #ton/m
+##########################################################################################
+# Unidades:
+ton = 1              # Toneladas
+s = 1                # Segundos
+m = 1                # Metros
+kg = ton*1e-3        # Kilogramos
+
+N = kg*m/(s**2)      # Newton
+Pa = N/(m**2)        # Pascales
+
+cm = m*1e-2          # Centimetros
+GPa = Pa*1e9         # Gigapascales
+##########################################################################################
+
+n = 20
+
+masa_lineal = 6.2 * ton/m
 
 M = sp.zeros((20,20))
-m = []
+m0 = []
 
 m1 = masa_lineal * 12 * 3.5
 m2 = masa_lineal * 8 * 3.5
 m3 = masa_lineal * 4 * 3.5
 
-b = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-#
-for j in b:
-    if j < 5:
-        m.append(m1)
-    elif j >= 5 and j < 9:
-        m.append(m2)
-    elif j >= 9:
-        m.append(m3)        
+for j in range(n):
+    if j < 4:
+        m0.append(m1)
+    elif j >= 4 and j < 8:
+        m0.append(m2)
+    elif j >= 8:
+        m0.append(m3)        
 
 i = 19
-
 while i > 0:
     M[i,i] = m[i] 
     i -= 1
 
-M[0,0] = m[0]
+M[0,0] = m0[0]
 
-##########################################################################################
-# Unidades:
-N = 1           # Newton
-kg = 1          # Kilogramos
-s = 1           # Segundos
-Pa = kg*N/s     # Pascales
-
-GPa = Pa*1e9
-ton = kg*1e3
-##########################################################################################
-
-n = 20
 
 E = 23.5*GPa
-I = [(0.6**4)/12, (0.7**4)/12, (0.8**4)/12, (0.9**4)/12, (1**4)/12] # Inercias de 60x60 (2.8m)
+I = [((60*cm)**4)/12, ((70*cm)**4)/12, ((80*cm)**4)/12, ((90*cm)**4)/12, ((1*m)**4)/12] # Inercias de 60x60 (2.8m)
 
 Kcolumnas1 = [] #Rigidez de columnas 60x60,70x70... 4m de alto
 Kcolumnas2 = [] #Rigidez de columnas 60x60,70x70... 2.8m de alto
