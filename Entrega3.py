@@ -9,6 +9,33 @@ Created on Mon Aug 13 19:56:46 2018
 import scipy as sp
 from scipy.sparse import spdiags
 
+masa_lineal = 6.2 #ton/m
+
+M = sp.zeros((20,20))
+m = []
+
+m1 = masa_lineal * 12 * 3.5
+m2 = masa_lineal * 8 * 3.5
+m3 = masa_lineal * 4 * 3.5
+
+b = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+#
+for j in b:
+    if j < 5:
+        m.append(m1)
+    elif j >= 5 and j < 9:
+        m.append(m2)
+    elif j >= 9:
+        m.append(m3)        
+
+i = 19
+
+while i > 0:
+    M[i,i] = m[i] 
+    i -= 1
+
+M[0,0] = m[0]
+
 ##########################################################################################
 # Unidades:
 N = 1           # Newton
