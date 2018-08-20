@@ -59,6 +59,10 @@ for j, arch in enumerate(seleccionados):
     
     metadatos = {'Fecha': TiD['año']+TiD['mes']+TiD['dia'],
                  'Hora': TiD['hora']+':'+TiD['min']+':'+TiD['seg'],
+                 'Epi_Lat': latitudHipo,
+                 'Epi_Lon': longitudHipo,
+                 'Epi_Profundidad': profundidad,
+                 'M': magnitud,
                  'Estacion_Lat': latitudEst,
                  'Estacion_Lon': longitudEst,
                  'Estacion_Nombre': estacion,
