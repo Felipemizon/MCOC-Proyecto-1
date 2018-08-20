@@ -25,11 +25,11 @@ for arch in sismos:
             zipf.extract(contents[i], path=Dir1+"HNN")
         elif final == 'HNZ.txt':
             zipf.extract(contents[i], path=Dir1+"HNZ")
-        elif final == 'HNZ.txt':
+        elif final == 'HLE.txt':
             zipf.extract(contents[i], path=Dir1+"HLE")
-        elif final == 'HNZ.txt':
+        elif final == 'HLN.txt':
             zipf.extract(contents[i], path=Dir1+"HLN")
-        elif final == 'HNZ.txt':
+        elif final == 'HLZ.txt':
             zipf.extract(contents[i], path=Dir1+"HLZ")
         
     
