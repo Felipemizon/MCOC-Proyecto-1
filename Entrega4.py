@@ -7,7 +7,8 @@ Created on Wed Aug 15 18:23:30 2018
 """
 
 import scipy as sp
-from os import listdir
+import os
+import shutil
 import time
 
 start_time = time.time()
@@ -17,7 +18,7 @@ g = 9.81   # m/(s**2)
 
 def enlistar(ruta):    
     sel = []
-    for i in listdir(ruta):
+    for i in os.listdir(ruta):
         a = sp.loadtxt(ruta+'/'+i)
         if max(abs(a)) >= 0.35*g and max(abs(a)) <= 0.55*g:
             sel.append(i)
@@ -25,26 +26,21 @@ def enlistar(ruta):
             break
     return sel
 
-HNE = enlistar("/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/HNE")
-HNN = enlistar("/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/HNN")
-HNZ = enlistar("/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/HNZ")
+Dir0 = "/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/"
 
-HLE = enlistar("/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/HLE")
-HLN = enlistar("/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/HLN")
-HLZ = enlistar("/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/HLZ")
+Gen = [['HNE/', enlistar(Dir0+"HNE")],
+       ['HNN/', enlistar(Dir0+"HNN")],
+       ['HNZ/', enlistar(Dir0+"HNZ")],
+       ['HLE/', enlistar(Dir0+"HLE")],
+       ['HLN/', enlistar(Dir0+"HLN")],
+       ['HLZ/', enlistar(Dir0+"HLZ")]]
 
-
-print 'HNE: ', HNE
-print 'HNN: ', HNN
-print 'HNZ: ', HNZ
-
-print ''
-
-print 'HLE: ', HLE
-print 'HLN: ', HLN
-print 'HLZ: ', HLZ
+for lista in Gen:
+    for i in lista[1]:
+        shutil.copy(Dir0+lista[0]+i, Dir0+'S_'+lista[0]+i)
 
 
 print ''
 print("--- Terminado en %s seg. ---" % (time.time() - start_time))
+
 
