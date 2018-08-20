@@ -7,12 +7,16 @@ Created on Sat Aug 18 18:58:31 2018
 """
 
 import zipfile
-from os import listdir
+import os
+import time
+
+start_time = time.time()
+
 
 Dir1 = "/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/"
 Dir2 = "Zips/"
 
-sismos = listdir(Dir1+Dir2)
+sismos = os.listdir(Dir1+Dir2)
 
 for arch in sismos:
     zipf = zipfile.ZipFile(Dir1+Dir2+arch)
@@ -31,7 +35,8 @@ for arch in sismos:
             zipf.extract(contents[i], path=Dir1+"HLN")
         elif final == 'HLZ.txt':
             zipf.extract(contents[i], path=Dir1+"HLZ")
-        
     
+    
+print("--- Terminado en %s seg. ---" % (time.time() - start_time))
 
 
