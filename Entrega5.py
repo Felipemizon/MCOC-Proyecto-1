@@ -49,6 +49,12 @@ for j, arch in enumerate(seleccionados):
     L5 = archivo.readline()
     latitudEst = float(L5[11:18])
     longitudEst = float(L5[-8:])
+    L6 = archivo.readline()
+    L7 = archivo.readline()
+    latitudHipo = float(L7[15:21])
+    longitudHipo = float(L7[-7:])
+    profundidad = int(archivo.readline()[-3:])
+    magnitud = float(archivo.readline()[-4:])
     archivo.close()
         
     a = sp.loadtxt(Dir+arch)
