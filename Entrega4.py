@@ -20,7 +20,7 @@ def enlistar(ruta):
     sel = []
     for i in os.listdir(ruta):
         a = sp.loadtxt(ruta+'/'+i)
-        if max(abs(a)) >= 0.35*g and max(abs(a)) <= 0.55*g:
+        if max(abs(a)) >= 0.2*g and max(abs(a)) <= 0.8*g:
             sel.append(i)
         if len(sel) >= 30:
             break
