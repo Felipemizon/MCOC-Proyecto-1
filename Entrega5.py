@@ -28,12 +28,12 @@ def datetime_range(start, samples, delta):
 Metadatos = []
 
 
-Dir = "/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/Seleccionados"
+Dir = "/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/Seleccionados/"
 
 seleccionados = listdir(Dir)
 
 for j, arch in enumerate(seleccionados):
-    archivo = open(arch)
+    archivo = open(Dir+arch)
     Ti = archivo.readline()[-28:]
     TiD = {'año':Ti[:4], 'mes':Ti[5:7], 'dia':Ti[8:10], 'hora':Ti[11:13], 'min':Ti[14:16], 'seg':Ti[17:19], 'mseg':Ti[20:-2]}
     tasam = float(archivo.readline()[20:25])
@@ -51,7 +51,7 @@ for j, arch in enumerate(seleccionados):
     longitudEst = float(L5[-8:])
     archivo.close()
         
-    a = sp.loadtxt(arch)
+    a = sp.loadtxt(Dir+arch)
     
     t = [dt.strftime('%H:%M:%S.%fZ Z') for dt in 
          datetime_range(datetime(int(TiD['año']), int(TiD['mes']), int(TiD['dia']), int(TiD['hora']), int(TiD['min']), int(TiD['seg']), int(TiD['mseg'])), Nmuestras, 
@@ -67,8 +67,9 @@ for j, arch in enumerate(seleccionados):
     Metadatos.append(metadatos)
         
     plt.figure(j)
-    plt.title('Evento: '+Ti)
+    plt.title('Evento: '+Ti+' Estación: '+estacion+', Componente: '+componente)
     plt.plot(a)
 
 
+print("--- Terminado en %s seg. ---" % (time.time() - start_time))
 
