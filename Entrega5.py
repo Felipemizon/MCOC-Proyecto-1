@@ -9,7 +9,7 @@ Created on Sun Aug 19 21:11:31 2018
 from datetime import datetime, timedelta
 import scipy as sp
 import matplotlib.pyplot as plt
-from os import listdir
+import os
 import time
 
 start_time = time.time()
@@ -25,12 +25,12 @@ def datetime_range(start, samples, delta):
             break
 
 
+g = 9.81 # m/(s**2)
 Metadatos = []
-
 
 Dir = "/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/Seleccionados/"
 
-seleccionados = listdir(Dir)
+seleccionados = os.listdir(Dir)
 
 for j, arch in enumerate(seleccionados):
     archivo = open(Dir+arch)
@@ -62,7 +62,8 @@ for j, arch in enumerate(seleccionados):
                  'Estacion_Lat': latitudEst,
                  'Estacion_Lon': longitudEst,
                  'Estacion_Nombre': estacion,
-                 'Componente': componente
+                 'Componente': componente,
+                 'PGA': max(abs(a))*100/g
                  }
     Metadatos.append(metadatos)
         
