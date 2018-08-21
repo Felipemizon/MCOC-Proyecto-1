@@ -93,10 +93,10 @@ for j, arch in enumerate(seleccionados):
                  'PGD': PGD,
                  'Duracion': D_5_95
                  }
-    Metadatos = {'a': 0, 't': 0, 'metadatos':{}}
-    Metadatos('a') = a
-    Metadatos('t') = t
-    Metadatos('metadatos') = metadatos
+    Metadatos = {}
+    Metadatos['a'] = a
+    Metadatos['t'] = t
+    Metadatos['metadatos'] = metadatos
     BMetadatos.append(Metadatos)
 
 # -----------------------------------------------------------------------------
@@ -147,7 +147,7 @@ for j, arch in enumerate(seleccionados):
 # -----------------------------------------------------------------------------
 
 for j,i in enumerate(BMetadatos):
-    sp.savez("$registro_{}$".format(str(j+1).zfill(2)), a=i['a'], t=i['t'], metadatos=i['metadatos'])
+    sp.savez("registro_{}".format(str(j+1).zfill(2)), a=i['a'], t=i['t'], metadatos=i['metadatos'])
 
 # -----------------------------------------------------------------------------
 
