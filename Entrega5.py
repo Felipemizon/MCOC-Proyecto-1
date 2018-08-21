@@ -14,18 +14,19 @@ import time
 start_time = time.time()
 
 g = 9.806 # m/(s**2)
-BMetadatos = []
+BM = []
 Dir = "/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/Seleccionados/"  # Directorio donde se encuentran los 30 sismos que cumplen el criterio.
 seleccionados = os.listdir(Dir)
+seleccionados.sort()
 
 # -----------------------------------------------------------------------------
 
-for j, arch in enumerate(seleccionados):
+for arch in seleccionados:
     archivo = open(Dir+arch)
     Ti = archivo.readline()[-28:]
     TiD = {'año':Ti[:4], 'mes':Ti[5:7], 'dia':Ti[8:10], 'hora':Ti[11:13], 'min':Ti[14:16], 'seg':Ti[17:19], 'mseg':Ti[20:-2]}
     tasam = float(archivo.readline()[20:25])
-    Nmuestras = float(archivo.readline()[-6:])
+    Nmuestras = int(archivo.readline()[-6:])
     L4 = archivo.readline()
     estacion = L4[12:16]
     if L4[-2] == 'E':
@@ -47,17 +48,16 @@ for j, arch in enumerate(seleccionados):
     
 # -----------------------------------------------------------------------------
     
-    a = sp.loadtxt(Dir+arch)
-    dt = 1./Nmuestras
-    Nt = a.size
-    v = sp.zeros(Nt)
-    d = sp.zeros(Nt)
-    v[1:] = sp.cumsum(a[1:] + a[0:-1])*dt/2
-    d[1:] = sp.cumsum(v[1:] + v[0:-1])*dt/2
-    t = sp.arange(0, dt*Nt, dt)
-    Ia = sp.zeros(Nt)
+    a = sp.loadtxt(Dir+arch) 
+    dt = 1./tasam  
+    t = sp.arange(0, dt*Nmuestras, dt)    
+    Ia = sp.zeros(Nmuestras)     
     a2 = a**2
-    da2 = (a2[0:-1] + a2[1:])*dt/2     
+    da2 = (a2[0:-1] + a2[1:])*dt/2    
+    v = sp.zeros(Nmuestras)
+    d = sp.zeros(Nmuestras)     
+    v[1:] = 100*sp.cumsum(a[1:] + a[0:-1])*dt/2
+    d[1:] = sp.cumsum(v[1:] + v[0:-1])*dt/2     
     Ia[1:] = sp.cumsum(da2)*sp.pi/(2*g)     
     Ia_inf = Ia.max()     
     i_05 = sp.argmin(abs(Ia - 0.05*Ia_inf))
@@ -67,14 +67,14 @@ for j, arch in enumerate(seleccionados):
     t_95 = t[i_95]
     Ia_95 = Ia[i_95]     
     D_5_95 = t_95 - t_05
-    PGA = max(abs(a))
-    al = sp.ndarray.tolist(a)
     i_PGA = sp.argmax(abs(a))
-    PGA = (a[i_PGA])/g
+    PGA = (a[i_PGA])/g     
     i_PGV = sp.argmax(abs(v))
-    PGV = (v[i_PGV])
+    PGV = (v[i_PGV])     
     i_PGD = sp.argmax(abs(d))
-    PGD = (d[i_PGD])
+    PGD = (d[i_PGD])    
+    if len(t)>len(a) or len(t)>len(v) or len(t)>len(d):
+        t = sp.delete(t,0)
     
 # ----------------------------------------------------------------------------- 
     
@@ -97,39 +97,41 @@ for j, arch in enumerate(seleccionados):
     Metadatos['a'] = a
     Metadatos['t'] = t
     Metadatos['metadatos'] = metadatos
-    BMetadatos.append(Metadatos)
+    BM.append(Metadatos)
 
 # -----------------------------------------------------------------------------
-   
-    plt.figure(j+1)
-    ax1=plt.subplot(3,2,1)
+    
+    plt.figure()
+    plt.subplot(3,2,1)
     plt.grid()
-    plt.axis(ymin=-0.6, ymax=0.6)
+    plt.ylim([-0.6,0.6])
     plt.xlabel('Tiempo, $\it{t}$ (s)')
     plt.ylabel('Acc, $\it{a}$ (g)')
     plt.plot(t,a/g)
     plt.plot(t[i_PGA],PGA, 'or')
-    ax1.annotate('PGA = '+str(round(PGA,3)), xy=(t[i_PGA], PGA), xytext=(t[i_PGA]+5, PGA))
+    plt.text(t[i_PGA],PGA, "PGA={0:0.3f}g".format(abs(PGA)))
     plt.axvline(t_05, ls='--', color='k')
     plt.axvline(t_95, ls='--', color='k')
     
-    ax2=plt.subplot(3,2,3)
+    plt.subplot(3,2,3)
     plt.grid()
+    plt.ylim([-15,15])
     plt.xlabel('Tiempo, $\it{t}$ (s)')
     plt.ylabel('Vel, $\it{v}$ (cm/s)')
     plt.plot(t,v)
     plt.plot(t[i_PGV],PGV, 'or')
-    ax2.annotate('PGV = '+str(round(PGV,3)), xy=(t[i_PGV], PGV), xytext=(t[i_PGV]+5, PGV))
+    plt.text(t[i_PGV],PGV, "PGV={0:0.3f}cm/s".format(abs(PGV)))
     plt.axvline(t_05, ls='--', color='k')
     plt.axvline(t_95, ls='--', color='k')
     
-    ax3=plt.subplot(3,2,5)
+    plt.subplot(3,2,5)
     plt.grid()
+    plt.ylim([-15,15])
     plt.xlabel('Tiempo, $\it{t}$ (s)')
     plt.ylabel('Dist, $\it{d}$ (cm)')
     plt.plot(t,d)
     plt.plot(t[i_PGD],PGD, 'or')
-    ax3.annotate('PGD = '+str(round(PGD,3)), xy=(t[i_PGD], PGD), xytext=(t[i_PGD]+5, PGD))
+    plt.text(t[i_PGD],PGD, "PGD={0:0.3f}cm".format(abs(PGD)))
     plt.axvline(t_05, ls='--', color='k')
     plt.axvline(t_95, ls='--', color='k')
     
@@ -140,15 +142,16 @@ for j, arch in enumerate(seleccionados):
     plt.axvline(t_05, ls='--', color='k')
     plt.axvline(t_95, ls='--', color='k')
     plt.title("$D_{{5-95}} = {}s$".format(round(D_5_95,4)))
-    
+        
     plt.suptitle('Evento: '+arch[:-4])
     plt.show()
 
 # -----------------------------------------------------------------------------
 
-for j,i in enumerate(BMetadatos):
+for j,i in enumerate(BM):
     sp.savez("registro_{}".format(str(j+1).zfill(2)), a=i['a'], t=i['t'], metadatos=i['metadatos'])
 
 # -----------------------------------------------------------------------------
 
 print("--- Terminado en %s seg. ---" % (time.time() - start_time))
+
