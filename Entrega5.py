@@ -12,7 +12,7 @@ import os
 import time
 
 start_time = time.time()
-
+#A continuacion se almacena en una variable los sismos que se descargaron y que cumplen con los supuestos estipulados en el enunciado
 g = 9.806 # m/(s**2)
 BM = []
 Dir = "/home/matias/Mis Documentos/UAndes/Métodos Computacionales en OOCC/Tareas/Proyecto 1/Registros Sismológicos/Seleccionados/"  # Directorio donde se encuentran los 30 sismos que cumplen el criterio.
@@ -20,7 +20,7 @@ seleccionados = os.listdir(Dir)
 seleccionados.sort()
 
 # -----------------------------------------------------------------------------
-
+#Se procede a guardar las variables para luego crear un diccionario con el año, mes, dia, etc
 for arch in seleccionados:
     archivo = open(Dir+arch)
     Ti = archivo.readline()[-28:]
@@ -47,7 +47,7 @@ for arch in seleccionados:
     archivo.close()
     
 # -----------------------------------------------------------------------------
-    
+# Se almacenan en variables aceleracion, velocidad y desplazamiento maximo, ademas de generar un vector tiempo que ser necesario para crear luego un diccionario      
     a = sp.loadtxt(Dir+arch) 
     dt = 1./tasam  
     t = sp.arange(0, dt*Nmuestras, dt)    
@@ -77,7 +77,7 @@ for arch in seleccionados:
         t = sp.delete(t,0)
     
 # ----------------------------------------------------------------------------- 
-    
+ #A partir de lo creado anteriormente, se genera el diccionario   
     metadatos = {'Fecha': TiD['año']+TiD['mes']+TiD['dia'],
                  'Hora': TiD['hora']+':'+TiD['min']+':'+TiD['seg'],
                  'Epi_Lat': latitudHipo,
@@ -100,7 +100,7 @@ for arch in seleccionados:
     BM.append(Metadatos)
 
 # -----------------------------------------------------------------------------
-    
+  #Codigo generado para graficar  
     plt.figure()
     plt.subplot(3,2,1)
     plt.grid()
