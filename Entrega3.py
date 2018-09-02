@@ -55,8 +55,8 @@ M[0,0] = m0[0]
 E = 23.5*GPa
 I = [((60*cm)**4)/12, ((70*cm)**4)/12, ((80*cm)**4)/12, ((90*cm)**4)/12, ((1*m)**4)/12] # Inercias de 60x60 (2.8m)
 
-Kcolumnas1 = [] #Rigidez de columnas 60x60,70x70... 4m de alto
-Kcolumnas2 = [] #Rigidez de columnas 60x60,70x70... 2.8m de alto
+Kcolumnas1 = [] #Rigidez de columnas 60x60,70x70,...de 4m de alto
+Kcolumnas2 = [] #Rigidez de columnas 60x60,70x70...de 2.8m de alto
 kk = sp.zeros(6)
 
 for Ic in I:
