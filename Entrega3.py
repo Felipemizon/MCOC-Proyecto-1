@@ -46,7 +46,7 @@ for j in range(n):
 
 i = 19
 while i > 0:
-    M[i,i] = m[i] 
+    M[i,i] = m0[i] 
     i -= 1
 
 M[0,0] = m0[0]
