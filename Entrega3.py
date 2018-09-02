@@ -31,9 +31,10 @@ masa_lineal = 6.2 * ton/m
 M = sp.zeros((20,20))
 m0 = []
 
-m1 = masa_lineal * 12 * 3.5
-m2 = masa_lineal * 8 * 3.5
-m3 = masa_lineal * 4 * 3.5
+#Se calcula m1, m2 y m3 y se multiplica por 1000 para ocupar las unidades correspondientes
+m1 = masa_lineal * 12 * 3.5*1000 
+m2 = masa_lineal * 8 * 3.5*1000 
+m3 = masa_lineal * 4 * 3.5*1000 
 
 for j in range(n):
     if j < 4:
